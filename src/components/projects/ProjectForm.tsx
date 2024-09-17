@@ -1,18 +1,10 @@
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 import Error from '@/components/Error';
-
+import { DraftProject } from 'types';
 
 type ProjectFormProps = {
-    register: UseFormRegister<{
-        projectName: string;
-        clientName: string;
-        description: string;
-    }> 
-    errors: FieldErrors<{
-        projectName: string;
-        clientName: string;
-        description: string;
-    }> 
+    register: UseFormRegister<DraftProject> 
+    errors: FieldErrors<DraftProject> 
 }
 
 export default function ProjectForm({ register, errors } : ProjectFormProps) {
@@ -35,9 +27,7 @@ export default function ProjectForm({ register, errors } : ProjectFormProps) {
                 />
 
                 { 
-                    errors.projectName && (
-                        <Error>{ errors.projectName.message }</Error>
-                    )
+                    errors.projectName && <Error>{ errors.projectName.message }</Error>
                 }
             </div>
 
@@ -58,9 +48,7 @@ export default function ProjectForm({ register, errors } : ProjectFormProps) {
                 />
 
                 {
-                    errors.clientName && (
-                        <Error>{ errors.clientName.message }</Error>
-                    )
+                    errors.clientName && <Error>{ errors.clientName.message }</Error>
                 }
             </div>
 
@@ -80,9 +68,7 @@ export default function ProjectForm({ register, errors } : ProjectFormProps) {
                 />
 
                 {
-                    errors.description && (
-                        <Error>{ errors.description.message }</Error>
-                    )
+                    errors.description && <Error>{ errors.description.message }</Error>
                 }
             </div>
         </>
