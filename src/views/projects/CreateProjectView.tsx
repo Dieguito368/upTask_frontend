@@ -1,3 +1,4 @@
+import { useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
@@ -5,6 +6,7 @@ import ProjectForm from '@/components/projects/ProjectForm';
 import { DraftProject } from '@/types/index';
 import { createProject } from '@/api/ProjectAPI';
 import { toast } from 'react-toastify';
+import Error from '@/components/Error';
 
 const CreateProjectView = () => {
     const navigate = useNavigate();
@@ -29,6 +31,8 @@ const CreateProjectView = () => {
 
     const handleForm = async (data: DraftProject) => mutate(data);
 
+    const isEmpyErrors = useMemo(() => Object.keys(errors).length > 0, [ errors ]);
+
     return (
         <>
             <div className='max-w-3xl mx-auto'>
@@ -49,10 +53,10 @@ const CreateProjectView = () => {
                     onSubmit={ handleSubmit(handleForm) } 
                     noValidate
                 >
+                    { isEmpyErrors && <Error>Todos los campos son obligatorios</Error> }
 
                     <ProjectForm 
                         register={ register }
-                        errors={ errors }
                     />
 
                     <input
