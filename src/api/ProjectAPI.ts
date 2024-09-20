@@ -1,4 +1,4 @@
-import { DraftProject } from '@/types/index';
+import { DraftProject, Project } from '@/types/index';
 import api from '@/lib/axios';
 import { isAxiosError } from 'axios';
 import { projectsSchema } from '@/schemas/projectSchema';
@@ -26,5 +26,18 @@ export const getProjectsAll = async () => {
         if(isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);
         }
-    } 
+    }
+}
+
+export const getProjectById = async (id: Project['_id']) => {
+    try {
+        const { data } = await api(`/projects/${id}`);
+
+        console.log(data);
+        
+    } catch (error) {
+        if(isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+    }
 }
