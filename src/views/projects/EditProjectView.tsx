@@ -1,41 +1,54 @@
-import { useMemo } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useEffect, useMemo } from 'react';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useQuery } from '@tanstack/react-query';
+import { getProjectById } from '@/api/ProjectAPI';
 import ProjectForm from '@/components/projects/ProjectForm';
 import Error from '@/components/Error';
-import { useMutation } from '@tanstack/react-query';
-import { getProjectById } from '@/api/ProjectAPI';
+import { DraftProject } from '@/types/index';
 
 const EditProject = () => {
     const params = useParams();
 
-    console.log(params);
-    
+    const projectId = params.projectId!;
 
-    const { mutate } = useMutation({
-        mutationFn: getProjectById()
+    const { data: project, isError } = useQuery({
+        queryKey: ['editProject', projectId],
+        queryFn: () => getProjectById(projectId),
+        retry: false
     });
 
-    const initialValues: DraftProject = {
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({ defaultValues: {
         projectName: '',
         clientName: '',
-        description: '' 
-    }
+        description: ''
+    } });
 
-    const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues });
+    useEffect(() => {
+        if(project) {
+            reset({
+                projectName: project.projectName,
+                clientName: project.clientName,
+                description: project.description
+            });
+        }
+    }, [ project ]);
 
-    const handleForm = () => {
 
+    const handleForm = (data: DraftProject) => {
+        console.log(data);
     }
 
     const isEmptyErrors = useMemo(() => Object.keys(errors).length > 0, [ errors ]);
 
-    return (
+    if(isError) return <Navigate to='/' />
+
+    if(project) return (
         <>
             <div className='max-w-3xl mx-auto'>
-                <h1 className='text-5xl font-black'>Crear Proyecto</h1>
+                <h1 className='text-5xl font-black'>Editar Proyecto</h1>
                 
-                <p className='text-2xl font-light text-gray-500 mt-5'>Llena el siguiente formulario para crear un proyecto</p>
+                <p className='text-2xl font-light text-gray-500 mt-5'>Llena el siguiente formulario para editar un proyecto</p>
 
                 <nav className='my-5'>
                     <Link 
@@ -47,18 +60,18 @@ const EditProject = () => {
                 <form 
                     action='#' 
                     className='mt-10 bg-white shadow-lg p-10 rounded-lg' 
-                    onSubmit={ handleSubmit(handleForm) } 
                     noValidate
+                    onSubmit={ handleSubmit(handleForm) }
                 >
                     { isEmptyErrors  && <Error>Todos los campos son obligatorios</Error> }
 
-                    <ProjectForm 
+                    <ProjectForm
                         register={ register }
                     />
 
                     <input
                         type='submit' 
-                        value='Crear Proyecto' 
+                        value='Guardar cambios' 
                         className='bg-fuchsia-600 hover:bg-fuchsia-700 w-full text-white font-bold p-3 uppercase cursor-pointer transition-colors'
                     />
                 </form>

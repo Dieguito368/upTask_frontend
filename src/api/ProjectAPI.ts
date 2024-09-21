@@ -1,7 +1,7 @@
 import { DraftProject, Project } from '@/types/index';
 import api from '@/lib/axios';
 import { isAxiosError } from 'axios';
-import { projectsSchema } from '@/schemas/projectSchema';
+import { projectSchema, projectsSchema } from '@/schemas/projectSchema';
 
 export const createProject = async (formData: DraftProject) => {
     try {
@@ -18,7 +18,7 @@ export const createProject = async (formData: DraftProject) => {
 export const getProjectsAll = async () => {
     try {
         const { data } = await api('/projects');
-        
+
         const result = projectsSchema.safeParse(data);
 
         if(result.success) return result.data;
@@ -33,8 +33,9 @@ export const getProjectById = async (id: Project['_id']) => {
     try {
         const { data } = await api(`/projects/${id}`);
 
-        console.log(data);
-        
+        const result = projectSchema.safeParse(data);
+
+        if(result.success) return result.data
     } catch (error) {
         if(isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);
