@@ -1,15 +1,16 @@
 import { useEffect, useMemo } from 'react';
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useQuery } from '@tanstack/react-query';
-import { getProjectById } from '@/api/ProjectAPI';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { getProjectById, updateProject } from '@/api/ProjectAPI';
 import ProjectForm from '@/components/projects/ProjectForm';
 import Error from '@/components/Error';
 import { DraftProject } from '@/types/index';
+import { toast } from 'react-toastify';
 
 const EditProject = () => {
+    const navigate = useNavigate();
     const params = useParams();
-
     const projectId = params.projectId!;
 
     const { data: project, isError } = useQuery({
@@ -22,7 +23,7 @@ const EditProject = () => {
         projectName: '',
         clientName: '',
         description: ''
-    } });
+    }});
 
     useEffect(() => {
         if(project) {
@@ -34,9 +35,25 @@ const EditProject = () => {
         }
     }, [ project ]);
 
+    const { mutate } = useMutation({
+        mutationFn: updateProject,
+        onError: (error) => {
+            toast.error(error.message);
+        }, 
+        onSuccess: (res) => {
+            toast.success(res);
 
-    const handleForm = (data: DraftProject) => {
-        console.log(data);
+            navigate('/')
+        }
+    });
+
+    const handleForm = (formData: DraftProject) => {
+        const data = {
+            id: projectId,
+            formData
+        }
+
+        mutate(data);
     }
 
     const isEmptyErrors = useMemo(() => Object.keys(errors).length > 0, [ errors ]);
