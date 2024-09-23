@@ -27,11 +27,9 @@ const EditProject = () => {
 
     useEffect(() => {
         if(project) {
-            reset({
-                projectName: project.projectName,
-                clientName: project.clientName,
-                description: project.description
-            });
+            const { projectName, clientName, description } = project;
+
+            reset({ projectName, clientName, description });
         }
     }, [ project ]);
 

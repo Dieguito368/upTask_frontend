@@ -3,6 +3,7 @@ import AppLayout from '@/layouts/AppLayout';
 import DashboardView from '@/views/DashboardView';
 import CreateProjectView from '@/views/projects/CreateProjectView';
 import EditProject from './views/projects/EditProjectView';
+import ProjectDetailsView from './views/projects/ProjectDetailsView';
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
             {
                 path: 'projects/:projectId/edit',
                 element: <EditProject />
+            },
+            {
+                path: 'projects/:projectId',
+                element: <ProjectDetailsView />
             }
         ]
     }
