@@ -48,8 +48,18 @@ export const updateProject = async ({ id, formData } : { id: Project['_id'], for
         const { data } = await api.put<string>(`/projects/${id}`, formData);
 
         return data;
+    } catch (error) {
+        if(isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+    }
+}
 
-        // if(result.success) return result.data
+export const deleteProject = async (id: Project['_id']) => {
+    try {
+        const { data } = await api.delete<string>(`/projects/${id}`);
+
+        return data;
     } catch (error) {
         if(isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);

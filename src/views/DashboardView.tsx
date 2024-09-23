@@ -1,14 +1,28 @@
 import { Fragment, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
-import { getProjectsAll } from '@/api/ProjectAPI';
+import { deleteProject, getProjectsAll } from '@/api/ProjectAPI';
+import { toast } from 'react-toastify';
 
 const DashboardView = () => {
     const { data: projects } = useQuery({
         queryKey: ['projects'],
         queryFn: getProjectsAll
+    });
+
+    const queryClient = useQueryClient()
+
+    const { mutate } = useMutation({
+        mutationFn: deleteProject,
+        onSuccess: (res) => {
+            toast.success(res);
+            queryClient.invalidateQueries({ queryKey: [ 'projects' ] })
+        }, 
+        onError: (error) => {
+            toast.error(error.message);
+        }
     });
 
     const isEmptyData = useMemo(() => projects?.length === 0, [projects]);
@@ -88,7 +102,7 @@ const DashboardView = () => {
                                                         <button
                                                             type='button'
                                                             className='block px-3 py-1 text-sm leading-6 text-red-500'
-                                                            onClick={() => { }}
+                                                            onClick={ () => mutate(project._id) }
                                                         >Eliminar Proyecto</button>
                                                     </MenuItem>
                                                 </MenuItems>
