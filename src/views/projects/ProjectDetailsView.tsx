@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getProjectById } from '@/api/ProjectAPI';
 import { useParams, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import AddTaskModal from '@/components/tasks/AddTaskModal';
+import TaskList from '@/components/tasks/TaskList';
 
 const ProjectDetailsView = () => {
     const navigate = useNavigate();
@@ -9,11 +10,11 @@ const ProjectDetailsView = () => {
     const params  = useParams();
     const projectId = params.projectId!;
     const { data: project, isError } = useQuery({
-        queryKey: ['project'],
+        queryKey: ['project', projectId],
         queryFn: () => getProjectById(projectId),
         retry: false
     });
-
+    
     if(isError) return <Navigate to='/' />
     if(project) return (
         <>
@@ -27,6 +28,8 @@ const ProjectDetailsView = () => {
                     onClick={ () => navigate(`${location.pathname}?newTask=true`)}
                 >Agregar Tarea</button>
             </nav>
+
+            <TaskList tasks={ project.tasks }/>
 
             <AddTaskModal />
         </>

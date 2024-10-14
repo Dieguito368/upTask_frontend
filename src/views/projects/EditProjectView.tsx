@@ -2,11 +2,11 @@ import { useEffect, useMemo } from 'react';
 import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useQuery, useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 import { getProjectById, updateProject } from '@/api/ProjectAPI';
 import ProjectForm from '@/components/projects/ProjectForm';
 import Error from '@/components/Error';
 import { DraftProject } from '@/types/index';
-import { toast } from 'react-toastify';
 
 const EditProject = () => {
     const navigate = useNavigate();
@@ -46,10 +46,7 @@ const EditProject = () => {
     });
 
     const handleForm = (formData: DraftProject) => {
-        const data = {
-            id: projectId,
-            formData
-        }
+        const data = { projectId, formData }
 
         mutate(data);
     }

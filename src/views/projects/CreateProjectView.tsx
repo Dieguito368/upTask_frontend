@@ -2,11 +2,11 @@ import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
-import ProjectForm from '@/components/projects/ProjectForm';
-import { DraftProject } from '@/types/index';
-import { createProject } from '@/api/ProjectAPI';
 import { toast } from 'react-toastify';
+import ProjectForm from '@/components/projects/ProjectForm';
 import Error from '@/components/Error';
+import { createProject } from '@/api/ProjectAPI';
+import { DraftProject } from '@/types/index';
 
 const CreateProjectView = () => {
     const navigate = useNavigate();
@@ -29,7 +29,7 @@ const CreateProjectView = () => {
         }
     });
 
-    const handleForm = async (data: DraftProject) => mutate(data);
+    const handleForm = (data: DraftProject) => mutate(data);
 
     const isEmptyErrors = useMemo(() => Object.keys(errors).length > 0, [ errors ]);
 

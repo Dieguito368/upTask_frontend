@@ -8,7 +8,7 @@ export const projectSchema = z.object({
 });
 
 export const projectsSchema = z.array(
-    projectSchema .pick({
+    projectSchema.pick({
         _id: true,
         projectName: true,
         clientName: true,
