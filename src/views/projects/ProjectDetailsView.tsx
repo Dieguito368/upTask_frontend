@@ -3,6 +3,8 @@ import { getProjectById } from '@/api/ProjectAPI';
 import { useParams, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import AddTaskModal from '@/components/tasks/AddTaskModal';
 import TaskList from '@/components/tasks/TaskList';
+import EditTaskData from '@/components/tasks/EditTaskData';
+import TaskModalDetails from '@/components/tasks/TaskModalDetails';
 
 const ProjectDetailsView = () => {
     const navigate = useNavigate();
@@ -16,6 +18,7 @@ const ProjectDetailsView = () => {
     });
     
     if(isError) return <Navigate to='/' />
+    
     if(project) return (
         <>
             <h1 className='text-3xl font-black'>{ project.projectName }</h1>
@@ -32,6 +35,10 @@ const ProjectDetailsView = () => {
             <TaskList tasks={ project.tasks }/>
 
             <AddTaskModal />
+
+            <EditTaskData />
+
+            <TaskModalDetails />
         </>
     )
 }

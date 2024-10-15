@@ -18,6 +18,8 @@
 			"@/types/*": [ "types/*" ],
 			"@/schemas/*": [ "schemas/*" ],
 			"@/lib/*": [ "lib/*" ],
+			"@/utils/*": [ "utils/*" ],
+			"@/locales/*": [ "locales/*" ]
 		},
 		/* Bundler mode */
 		"moduleResolution": "bundler",

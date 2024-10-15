@@ -11,18 +11,22 @@ import { toast } from 'react-toastify';
 
 export default function AddTaskModal() {
     const navigate = useNavigate();
+
     const location = useLocation();
-    const params = useParams();
     const queryParams = new URLSearchParams(location.search);
     const modalTask = queryParams.get('newTask'); 
     const show = modalTask ? true : false;
+    
+    const params = useParams();
     const projectId = params.projectId!;
+    
     const initialValues : TaskFormData = {
         name: '',
         description: ''
     }
     const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: initialValues });
-    const isEmptyErrors = useMemo(() => Object.values(errors).length > 0, [ errors ]);
+    const isEmptyErrors = () => Object.values(errors).length > 0;
+    
     const queryClient = useQueryClient();
     const { mutate } = useMutation({
         mutationFn: createTask,
@@ -36,11 +40,13 @@ export default function AddTaskModal() {
             navigate(location.pathname)
         }
     });
+
     const handleForm = (formData: TaskFormData) => {
         const data = { projectId, formData }
 
         mutate(data);
     }
+    
     return (
         <>
             <Transition appear show={ show } as={ Fragment }>
@@ -60,7 +66,7 @@ export default function AddTaskModal() {
                     <div className="fixed inset-0 overflow-y-auto">
                         <div className="flex min-h-full items-center justify-center p-4 text-center">
                             <TransitionChild
-                                as={Fragment}
+                                as={ Fragment }
                                 enter="ease-out duration-300"
                                 enterFrom="opacity-0 scale-95"
                                 enterTo="opacity-100 scale-100"
@@ -85,7 +91,7 @@ export default function AddTaskModal() {
                                         onSubmit={ handleSubmit(handleForm) }
                                         noValidate
                                     >
-                                        { isEmptyErrors && <Error>Todos los campos son obligatorios</Error> }
+                                        {  isEmptyErrors() && <Error>Todos los campos son obligatorios</Error> }
 
                                         <TaskForm register={ register } />
 
