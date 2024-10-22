@@ -8,6 +8,7 @@ import AuthLayout from './layouts/AuthLayout';
 import LoginView from './views/auth/LoginView';
 import RegisterView from './views/auth/RegisterView';
 import ConfirmAccountView from './views/auth/ConfirmAccountView';
+import RequestNewCodeView from './views/auth/RequestNewCodeView';
 
 const router = createBrowserRouter([
     {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
             {
                 path: 'confirm-account',
                 element: <ConfirmAccountView />
+            },
+            {
+                path: 'request-code',
+                element: <RequestNewCodeView />
             },
             
         ]

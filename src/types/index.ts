@@ -19,4 +19,6 @@ export type TaskStatus = z.infer<typeof taskStatusSchema>
 export type Auth = z.infer<typeof authSchema>
 export type UserLoginFormData = Pick<Auth, 'email' | 'password'>
 export type UserRegisterFormData = Pick<Auth, 'name' | 'email' | 'password' | 'password_confirmation'>
+export type RequestConfirmationCodeFormData = Pick<Auth, 'email'>
+
 export type ConfirmToken = Pick<Auth, 'token'>
