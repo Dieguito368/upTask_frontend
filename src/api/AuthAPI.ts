@@ -42,6 +42,8 @@ export const autenthicateUser = async(formData: UserLoginFormData) => {
     try {
         const { data } = await api.post<string>('/auth/login', formData);
 
+        localStorage.setItem('AUTH_TOKEN', data);
+
         return data;
     } catch (error) {
         if(isAxiosError(error) && error.response) {
