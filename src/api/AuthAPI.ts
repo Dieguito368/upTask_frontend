@@ -1,6 +1,7 @@
 import api from '@/lib/axios';
 import { isAxiosError } from 'axios';
 import { ConfirmToken, RequestConfirmationCodeFormData, UserLoginFormData, UserRegisterFormData } from '../types';
+import { userSchema } from '@/schemas/userSchema';
 
 export const createAccount = async (formData: UserRegisterFormData) => {
     try {
@@ -45,6 +46,20 @@ export const autenthicateUser = async(formData: UserLoginFormData) => {
         localStorage.setItem('AUTH_TOKEN', data);
 
         return data;
+    } catch (error) {
+        if(isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+    }
+}
+
+export const getUser = async () => {
+    try {
+        const { data } = await api('/auth/user');
+
+        const result = userSchema.safeParse(data);
+
+        if(result.success) return result.data;
     } catch (error) {
         if(isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);

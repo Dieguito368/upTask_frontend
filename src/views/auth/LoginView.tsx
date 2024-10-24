@@ -38,6 +38,7 @@ export default function LoginView() {
                 <div className="flex flex-col">
                     <label
                         className="font-normal text-2xl mb-3"
+                        htmlFor='email'
                     >Email</label>
 
                     <input
@@ -45,6 +46,7 @@ export default function LoginView() {
                         type="email"
                         placeholder="Email de Registro"
                         className="w-full p-3  border-gray-300 border outline-none"
+                        autoComplete='email'
                         {
                             ...register("email", {
                                 required: "El Email es obligatorio",
@@ -66,9 +68,11 @@ export default function LoginView() {
                 <div className="flex flex-col">
                     <label
                         className="font-normal text-2xl mb-3"
+                        htmlFor='password'
                     >Password</label>
 
                     <input
+                        id='password'
                         type="password"
                         placeholder="Password de Registro"
                         className="w-full p-3  border-gray-300 border outline-none"

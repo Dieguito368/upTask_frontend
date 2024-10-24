@@ -7,7 +7,7 @@ import { deleteProject, getProjectsAll } from '@/api/ProjectAPI';
 import { toast } from 'react-toastify';
 
 const DashboardView = () => {
-    const { data: projects } = useQuery({
+    const { data: projects, isLoading } = useQuery({
         queryKey: ['projects'],
         queryFn: getProjectsAll
     });
@@ -26,6 +26,8 @@ const DashboardView = () => {
     });
 
     const isEmptyData = useMemo(() => projects?.length === 0, [projects]);
+
+    if(isLoading) return <p className="text-center text-xl font-light">Cargando proyectos...</p>;
 
     if(projects) return (
         <>

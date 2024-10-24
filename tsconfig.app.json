@@ -19,7 +19,8 @@
 			"@/schemas/*": [ "schemas/*" ],
 			"@/lib/*": [ "lib/*" ],
 			"@/utils/*": [ "utils/*" ],
-			"@/locales/*": [ "locales/*" ]
+			"@/locales/*": [ "locales/*" ],
+			"@/hooks/*": [ "hooks/*" ],
 		},
 		/* Bundler mode */
 		"moduleResolution": "bundler",
