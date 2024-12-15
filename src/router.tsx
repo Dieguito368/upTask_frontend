@@ -9,6 +9,8 @@ import LoginView from './views/auth/LoginView';
 import RegisterView from './views/auth/RegisterView';
 import ConfirmAccountView from './views/auth/ConfirmAccountView';
 import RequestNewCodeView from './views/auth/RequestNewCodeView';
+import ForgotPasswordView from './views/auth/ForgotPasswordView';
+import NewPasswordView from './views/auth/NewPasswordView';
 
 const router = createBrowserRouter([
     {
@@ -57,7 +59,14 @@ const router = createBrowserRouter([
                 path: 'request-code',
                 element: <RequestNewCodeView />
             },
-            
+            {
+                path: 'forgot-password',
+                element: <ForgotPasswordView />
+            },
+            {
+                path: 'new-password',
+                element: <NewPasswordView />
+            },
         ]
     }
 ]);

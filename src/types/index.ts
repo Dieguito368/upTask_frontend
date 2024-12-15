@@ -22,6 +22,8 @@ export type Auth = z.infer<typeof authSchema>
 export type UserLoginFormData = Pick<Auth, 'email' | 'password'>
 export type UserRegisterFormData = Pick<Auth, 'name' | 'email' | 'password' | 'password_confirmation'>
 export type RequestConfirmationCodeFormData = Pick<Auth, 'email'>
+export type ForgotPasswordFormData = Pick<Auth, 'email'>
+export type NewPasswordFormData = Pick<Auth, 'password' | 'password_confirmation'>
 export type User = z.infer<typeof userSchema>
 
 export type ConfirmToken = Pick<Auth, 'token'>

@@ -30,14 +30,21 @@ export default function LoginView() {
 
     return (
         <>
+            <h1 className="text-3xl font-black text-white text-center">Iniciar Sesión</h1>
+
+            <p className="text-lg text-center mb-8 font-light text-white mt-5">
+                Bienvenido de nuevo, mantén el enfoque y la productividad de {''}
+                <span className=" text-fuchsia-500 font-bold">tu equipo</span>
+            </p>
+
             <form
                 onSubmit={ handleSubmit(handleLogin) }
-                className="space-y-8 p-10 bg-white"
+                className="p-10 mt-10 bg-white rounded"
                 noValidate
             >
-                <div className="flex flex-col">
+                <div className="flex flex-col mb-5">
                     <label
-                        className="font-normal text-2xl mb-3"
+                        className="font-normal mb-1"
                         htmlFor='email'
                     >Email</label>
 
@@ -45,7 +52,7 @@ export default function LoginView() {
                         id="email"
                         type="email"
                         placeholder="Email de Registro"
-                        className="w-full p-3  border-gray-300 border outline-none"
+                        className="w-full p-3 text-sm border-gray-300 border outline-none"
                         autoComplete='email'
                         {
                             ...register("email", {
@@ -67,7 +74,7 @@ export default function LoginView() {
 
                 <div className="flex flex-col">
                     <label
-                        className="font-normal text-2xl mb-3"
+                        className="font-normal mb-1"
                         htmlFor='password'
                     >Password</label>
 
@@ -75,7 +82,7 @@ export default function LoginView() {
                         id='password'
                         type="password"
                         placeholder="Password de Registro"
-                        className="w-full p-3  border-gray-300 border outline-none"
+                        className="w-full text-sm p-3  border-gray-300 border outline-none"
                         {
                             ...register("password", {
                                 required: "El Password es obligatorio",
@@ -93,17 +100,26 @@ export default function LoginView() {
                 <input
                     type="submit"
                     value='Iniciar Sesión'
-                    className="bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-xl cursor-pointer"
+                    className="bg-fuchsia-600 hover:bg-fuchsia-700 w-full px-3 py-2  text-white font-black cursor-pointer mt-8"
                 />
             </form>
 
             <nav className='mt-10 flex flex-col space-y-4'>
-                <p className='text-white text-center'>
+                <p className='font-light text-white text-center'>
+
                     ¿No tienes una cuenta? {}
                     <Link
                         to='/auth/register'
                         className='text-fuchsia-600 font-bold'
                     >Crear una</Link>
+                </p>
+
+                <p className='font-light text-white text-center'>
+                    ¿Olvidaste tu contraseña? {}
+                    <Link
+                        to='/auth/forgot-password'
+                        className='text-fuchsia-600 font-bold'
+                    >Restablecer</Link>
                 </p>
             </nav>
         </>
