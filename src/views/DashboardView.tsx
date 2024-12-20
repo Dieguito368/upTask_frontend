@@ -3,16 +3,19 @@ import { Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
+import { useAuth } from '@/hooks/useAuth';
 import { deleteProject, getProjectsAll } from '@/api/ProjectAPI';
 import { toast } from 'react-toastify';
+import { isManager } from '@/utils/policies';
 
 const DashboardView = () => {
+    const queryClient = useQueryClient();
+    const { user } = useAuth();
+
     const { data: projects, isLoading } = useQuery({
         queryKey: ['projects'],
         queryFn: getProjectsAll
     });
-
-    const queryClient = useQueryClient()
 
     const { mutate } = useMutation({
         mutationFn: deleteProject,
@@ -29,7 +32,7 @@ const DashboardView = () => {
 
     if(isLoading) return <p className="text-center text-xl font-light">Cargando proyectos...</p>;
 
-    if(projects) return (
+    if(projects && user) return (
         <>
             <h1 className='text-5xl font-black'>Mis Proyectos</h1>
 
@@ -52,6 +55,23 @@ const DashboardView = () => {
                                 <li key={ project._id } className="flex justify-between gap-x-6 px-5 py-10">
                                     <div className="flex min-w-0 gap-x-4">
                                         <div className="min-w-0 flex-auto space-y-2">
+                                            <div
+                                                className='mb-1'
+                                            >
+                                                { 
+                                                    isManager(project.manager, user._id) ? 
+                                                        (
+                                                            <p
+                                                                className='font-bold text-xs uppercase bg-indigo-50 text-indigo-500 border-2 border-indigo-500 rounded-lg mb-1 inline-block py-1 px-5'
+                                                            >Manager</p>
+                                                        ) : (
+                                                            <p
+                                                                className='font-bold text-xs uppercase bg-green-50 text-green-500 border-2 border-green-500 rounded-lg mb-1 inline-block py-1 px-5'
+                                                            >Colaborador</p>
+                                                        )
+                                                }
+                                            </div>
+
                                             <Link 
                                                 to={ `projects/${project._id}` }
                                                 className="text-gray-600 cursor-pointer hover:underline text-3xl font-bold"
@@ -75,7 +95,7 @@ const DashboardView = () => {
                                             </MenuButton>
                                             
                                             <Transition 
-                                                as={Fragment} 
+                                                as={ Fragment } 
                                                 enter="transition ease-out duration-100"
                                                 enterFrom="transform opacity-0 scale-95" 
                                                 enterTo="transform opacity-100 scale-100"
@@ -93,20 +113,25 @@ const DashboardView = () => {
                                                         >Ver Proyecto</Link>
                                                     </MenuItem>
 
-                                                    <MenuItem>
-                                                        <Link 
-                                                            to={`/projects/${project._id}/edit`}
-                                                            className='block px-3 py-1 text-sm leading-6 text-gray-900'
-                                                        >Editar Proyecto</Link>
-                                                    </MenuItem>
+                                                    { 
+                                                        isManager(project.manager, user._id) &&
+                                                            <>
+                                                                <MenuItem>
+                                                                    <Link 
+                                                                        to={`/projects/${project._id}/edit`}
+                                                                        className='block px-3 py-1 text-sm leading-6 text-gray-900'
+                                                                    >Editar Proyecto</Link>
+                                                                </MenuItem>
 
-                                                    <MenuItem>
-                                                        <button
-                                                            type='button'
-                                                            className='block px-3 py-1 text-sm leading-6 text-red-500'
-                                                            onClick={ () => mutate(project._id) }
-                                                        >Eliminar Proyecto</button>
-                                                    </MenuItem>
+                                                                <MenuItem>
+                                                                    <button
+                                                                        type='button'
+                                                                        className='block px-3 py-1 text-sm leading-6 text-red-500'
+                                                                        onClick={ () => mutate(project._id) }
+                                                                    >Eliminar Proyecto</button>
+                                                                </MenuItem>
+                                                            </>
+                                                    }
                                                 </MenuItems>
                                             </Transition>
                                         </Menu>

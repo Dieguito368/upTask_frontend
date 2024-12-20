@@ -3,6 +3,7 @@ import { projectSchema } from '@/schemas/projectSchema';
 import { taskSchema, taskStatusSchema } from '@/schemas/taskSchema';
 import { authSchema } from '@/schemas/authSchema';
 import { userSchema } from '@/schemas/userSchema';
+import { teamMemberSchema } from '@/schemas/teamSchema';
 
 /** Projects **/
 export type Project = z.infer<typeof projectSchema>
@@ -14,6 +15,12 @@ export type DraftProject = Pick<Project, 'clientName' | 'projectName' | 'descrip
 export type Task = z.infer<typeof taskSchema>
 export type TaskFormData = Pick<Task, 'name' | 'description'> 
 export type TaskStatus = z.infer<typeof taskStatusSchema>
+
+
+
+/** Team Member **/
+export type TeamMember = z.infer<typeof teamMemberSchema>
+export type TeamMemberFormData = Pick<TeamMember, 'email'>
 
 
 

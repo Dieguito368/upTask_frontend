@@ -3,12 +3,15 @@ import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import { getProjectById, updateProject } from '@/api/ProjectAPI';
 import ProjectForm from '@/components/projects/ProjectForm';
 import Error from '@/components/Error';
+import { useAuth } from '@/hooks/useAuth';
+import { getProjectById, updateProject } from '@/api/ProjectAPI';
 import { DraftProject } from '@/types/index';
+import { isManager } from '@/utils/policies';
 
 const EditProject = () => {
+    const { user } = useAuth();
     const navigate = useNavigate();
     const params = useParams();
     const projectId = params.projectId!;
