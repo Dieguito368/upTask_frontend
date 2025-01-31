@@ -25,7 +25,7 @@ export const createTask = async ({ projectId, formData } : Pick<TaskAPI, 'projec
 export const getTaskById = async ({ projectId, taskId } : Pick<TaskAPI, 'projectId' | 'taskId'>) => {
     try {
         const { data } = await api(`/projects/${projectId}/tasks/${taskId}`);
-        
+
         const result = taskSchema.safeParse(data);
 
         if(result.success) return result.data
