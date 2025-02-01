@@ -32,11 +32,12 @@ const TaskCard = ({ task, canEdit }: TaskCardProps) => {
     });
 
     return (
-        <li className='p-5 bg-white border-slate-300 flex justify-between gap-3'>
+        <li className='p-5 bg-white border-slate-300 flex justify-between gap-3 outline-none'>
             <div className='min-w-0 flex flex-col gap-y-4'>
                 <button
                     type='button'
                     className='text-xl font-bold text-slate-400 text-left'
+                    onClick={ () => navigate(location.pathname + `?viewTask=${task._id}`) }
                 >{ task.name }</button>
                 <p className='text-slate-500'>{ task.description }</p>
             </div>

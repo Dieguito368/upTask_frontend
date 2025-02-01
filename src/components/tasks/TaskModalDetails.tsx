@@ -7,6 +7,7 @@ import { formatDate } from '@/utils/index';
 import { statusTranslations } from '@/locales/es';
 import { toast } from 'react-toastify';
 import { TaskStatus } from '@/types/index';
+import NotesPanel from '../notes/NotesPanel';
 
 export default function TaskModalDetails() {
     // Obtener el ID del Proyecto
@@ -83,38 +84,43 @@ export default function TaskModalDetails() {
                                     
                                     <DialogTitle
                                         as="h3"
-                                        className="font-black text-4xl text-slate-600 my-5"
+                                        className="font-black text-3xl text-slate-600 mt-5 mb-2"
                                     >{ task.name }</DialogTitle>
-                                    <p className='text-lg text-slate-500 mb-2'>{ task.description }</p>
                                     
-                                    <div className="space-y-4">
-                                        <p className="text-lg text-slate-500 font-semibold mb-4">
-                                            Historial de cambios
-                                        </p>
+                                    <p className='text-slate-500 mb-2'>{ task.description }</p>
                                     
-                                        <ul className="relative border-l-2 border-slate-300">
-                                            {
-                                                task.updatedBy.map((update, index) => (
-                                                    <li key={ update._id } className="mb-6 ml-6">
-                                                        <div className="absolute -left-3 w-6 h-6 bg-slate-500 rounded-full border-4 border-white flex items-center justify-center">
-                                                            <span className="text-xs text-white">
-                                                                { index + 1 }
-                                                            </span>
-                                                        </div>
-                                                        <div className="text-sm">
-                                                            <span className="font-bold text-slate-600">
-                                                                { statusTranslations[update.status] }
-                                                            </span>{" "}
-                                                            <span className="text-slate-500">por:</span>{" "}
-                                                            <span className="text-slate-700">
-                                                                { update.user.name }
-                                                            </span>
-                                                        </div>
-                                                    </li>
-                                                ))
-                                            }
-                                        </ul>
-                                    </div>
+                                    {
+                                        task.updatedBy.length ? 
+                                            <div className="space-y-4">
+                                                <p className="text-lg text-slate-500 font-semibold mb-4">
+                                                    Historial de cambios
+                                                </p>
+                                            
+                                                <ul className="relative border-l-2 border-slate-300">
+                                                    {
+                                                        task.updatedBy.map((update, index) => (
+                                                            <li key={ update._id } className="mb-6 ml-6">
+                                                                <div className="absolute -left-3 w-6 h-6 bg-slate-500 rounded-full border-4 border-white flex items-center justify-center">
+                                                                    <span className="text-xs text-white">
+                                                                        { index + 1 }
+                                                                    </span>
+                                                                </div>
+                                                                <div className="text-sm">
+                                                                    <span className="font-bold text-slate-600">
+                                                                        { statusTranslations[update.status] }
+                                                                    </span>{" "}
+                                                                    <span className="text-slate-500">por:</span>{" "}
+                                                                    <span className="text-slate-700">
+                                                                        { update.user.name }
+                                                                    </span>
+                                                                </div>
+                                                            </li>
+                                                        ))
+                                                    }
+                                                </ul>
+                                            </div>
+                                        : null
+                                    }
                                     
                                     <div className='my-5 space-y-3'>
                                         <label className='font-bold'>Estado Actual:</label>
@@ -133,6 +139,8 @@ export default function TaskModalDetails() {
                                             }
                                         </select>
                                     </div>
+
+                                    <NotesPanel />
                                 </DialogPanel>
                             </TransitionChild>
                         </div>
