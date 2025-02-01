@@ -92,9 +92,7 @@ export default function TaskModalDetails() {
                                     {
                                         task.updatedBy.length ? 
                                             <div className="space-y-4">
-                                                <p className="text-lg text-slate-500 font-semibold mb-4">
-                                                    Historial de cambios
-                                                </p>
+                                                <h3 className="text-2xl font-bold text-slate-600 my-5">Historial de cambios</h3> 
                                             
                                                 <ul className="relative border-l-2 border-slate-300">
                                                     {
@@ -140,7 +138,7 @@ export default function TaskModalDetails() {
                                         </select>
                                     </div>
 
-                                    <NotesPanel />
+                                    <NotesPanel notes={ task.notes } />
                                 </DialogPanel>
                             </TransitionChild>
                         </div>
