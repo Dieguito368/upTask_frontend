@@ -1,4 +1,4 @@
-import { Fragment, ChangeEvent } from 'react';
+import { Fragment, ChangeEvent, useEffect } from 'react';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react';
@@ -49,7 +49,15 @@ export default function TaskModalDetails() {
         mutate(data);
     }
 
-    if(isError) return <Navigate to={ location.pathname } />
+    useEffect(() => {
+        if(isError) {
+            toast.error('Ha ocurrido un error al cargar la tarea');
+        }
+    })
+
+    if(isError) {
+        return <Navigate to={ location.pathname } />
+    }
     
     if(task) return (
         <>

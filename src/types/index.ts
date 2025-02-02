@@ -39,5 +39,7 @@ export type RequestConfirmationCodeFormData = Pick<Auth, 'email'>
 export type ForgotPasswordFormData = Pick<Auth, 'email'>
 export type NewPasswordFormData = Pick<Auth, 'password' | 'password_confirmation'>
 export type User = z.infer<typeof userSchema>
+export type UserEditFormData = Pick<User, 'name' | 'email'>
+export type UpdateCurrentUserPasswordFormData = Pick<Auth, 'current_password' | 'password' | 'password_confirmation'>
 
 export type ConfirmToken = Pick<Auth, 'token'>

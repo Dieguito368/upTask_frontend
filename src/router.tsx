@@ -12,6 +12,9 @@ import CreateProjectView from '@/views/projects/CreateProjectView';
 import EditProject from './views/projects/EditProjectView';
 import ProjectDetailsView from './views/projects/ProjectDetailsView';
 import ProjectTeamView from './views/projects/ProjectTeamView';
+import ProfileView from './views/profile/ProfileView';
+import ChangePasswordView from './views/profile/ChangePasswordView';
+import ProfileLayout from './layouts/ProfileLayout';
 
 const router = createBrowserRouter([
     {
@@ -37,7 +40,21 @@ const router = createBrowserRouter([
             {
                 path: 'projects/:projectId/team',
                 element: <ProjectTeamView />
-            }
+            },
+            {
+                path: 'profile',
+                element: <ProfileLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <ProfileView />
+                    },
+                    {
+                        path: 'change-password',
+                        element: <ChangePasswordView />
+                    }
+                ]
+            },
         ]
     },
     {
