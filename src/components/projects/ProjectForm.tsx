@@ -12,6 +12,7 @@ export default function ProjectForm({ register } : ProjectFormProps) {
                 <label htmlFor="projectName" className="text-sm uppercase font-bold block mb-2">
                     Nombre del Proyecto
                 </label>
+
                 <input
                     id="projectName"
                     className="w-full p-3 border border-gray-200 outline-none"
@@ -29,6 +30,7 @@ export default function ProjectForm({ register } : ProjectFormProps) {
                 <label htmlFor="clientName" className="text-sm uppercase font-bold block mb-2">
                     Nombre Cliente
                 </label>
+
                 <input
                     id="clientName"
                     className="w-full p-3 border border-gray-200 outline-none"
@@ -46,6 +48,7 @@ export default function ProjectForm({ register } : ProjectFormProps) {
                 <label htmlFor="description" className="text-sm uppercase font-bold block mb-2">
                     Descripción
                 </label>
+                
                 <textarea
                     id="description"
                     className="w-full p-3 border border-gray-200 outline-none"

@@ -5,13 +5,10 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import ProjectForm from '@/components/projects/ProjectForm';
 import Error from '@/components/Error';
-import { useAuth } from '@/hooks/useAuth';
 import { getProjectById, updateProject } from '@/api/ProjectAPI';
 import { DraftProject } from '@/types/index';
-import { isManager } from '@/utils/policies';
 
 const EditProject = () => {
-    const { user } = useAuth();
     const navigate = useNavigate();
     const params = useParams();
     const projectId = params.projectId!;
@@ -22,20 +19,25 @@ const EditProject = () => {
         retry: false
     });
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({ defaultValues: {
+    const { register, handleSubmit, formState: { errors }, reset, trigger } = useForm({ defaultValues: {
         projectName: '',
         clientName: '',
         description: ''
     }});
 
     useEffect(() => {
-        if(project) {
+        if (project) {
             const { projectName, clientName, description } = project;
-
+    
             reset({ projectName, clientName, description });
+    
+            setTimeout(() => {
+                trigger();
+            }, 0);
         }
-    }, [ project ]);
-
+    }, [project, reset, trigger]);
+    
+    
     const { mutate } = useMutation({
         mutationFn: updateProject,
         onError: (error) => {

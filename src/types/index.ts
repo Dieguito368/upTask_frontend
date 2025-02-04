@@ -36,10 +36,11 @@ export type Auth = z.infer<typeof authSchema>
 export type UserLoginFormData = Pick<Auth, 'email' | 'password'>
 export type UserRegisterFormData = Pick<Auth, 'name' | 'email' | 'password' | 'password_confirmation'>
 export type RequestConfirmationCodeFormData = Pick<Auth, 'email'>
+export type ConfirmToken = Pick<Auth, 'token'>
 export type ForgotPasswordFormData = Pick<Auth, 'email'>
 export type NewPasswordFormData = Pick<Auth, 'password' | 'password_confirmation'>
+export type UpdateCurrentUserPasswordFormData = Pick<Auth, 'current_password' | 'password' | 'password_confirmation'>
+export type CheckPasswordFormData = Pick<Auth, 'password'>
+
 export type User = z.infer<typeof userSchema>
 export type UserEditFormData = Pick<User, 'name' | 'email'>
-export type UpdateCurrentUserPasswordFormData = Pick<Auth, 'current_password' | 'password' | 'password_confirmation'>
-
-export type ConfirmToken = Pick<Auth, 'token'>

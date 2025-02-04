@@ -3,9 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Menu, MenuButton, MenuItems, MenuItem, Transition } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
+import { useDraggable } from '@dnd-kit/core';
+import { toast } from 'react-toastify';
 import { deleteTask } from '@/api/TaskAPI';
 import { Task } from '@/types/index';
-import { toast } from 'react-toastify';
 
 type TaskCardProps = {
     task: Task
@@ -14,12 +15,12 @@ type TaskCardProps = {
 
 const TaskCard = ({ task, canEdit }: TaskCardProps) => {
     const navigate = useNavigate();
-
-    // Obtener ID del Proyecto
     const params = useParams();
+    const queryClient = useQueryClient();
+    const {  attributes, listeners, setNodeRef, transform } = useDraggable({ id: task._id });
+
     const projectId = params.projectId!;
 
-    const queryClient = useQueryClient();
     const { mutate } = useMutation({
         mutationFn: deleteTask,
         onError: (error) => {
@@ -31,15 +32,25 @@ const TaskCard = ({ task, canEdit }: TaskCardProps) => {
         }
     });
 
+    const style = transform ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`
+    } : undefined;
+
     return (
-        <li className='p-5 bg-white border-slate-300 flex justify-between gap-3 outline-none'>
+        <li 
+            { ...attributes }
+            { ...listeners }
+            ref={ setNodeRef } 
+            style={ style }
+            className='p-5 bg-white border-slate-300 flex justify-between gap-3 outline-none'
+        >
             <div className='min-w-0 flex flex-col gap-y-4'>
                 <button
                     type='button'
-                    className='text-xl font-bold text-slate-400 text-left'
+                    className='font-bold text-slate-400 text-left'
                     onClick={ () => navigate(location.pathname + `?viewTask=${task._id}`) }
                 >{ task.name }</button>
-                <p className='text-slate-500'>{ task.description }</p>
+                <p className='text-slate-500 text-sm'>{ task.description }</p>
             </div>
 
             <div className="flex shrink-0  gap-x-6">

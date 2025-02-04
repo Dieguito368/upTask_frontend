@@ -1,31 +1,23 @@
 import { Fragment, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
-import { useAuth } from '@/hooks/useAuth';
-import { deleteProject, getProjectsAll } from '@/api/ProjectAPI';
 import { toast } from 'react-toastify';
+import DeleteProjectModal from '@/components/projects/DeleteProjectModal';
+import { useAuth } from '@/hooks/useAuth';
 import { isManager } from '@/utils/policies';
+import { deleteProject, getProjectsAll } from '@/api/ProjectAPI';
 
 const DashboardView = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const { user } = useAuth();
 
     const { data: projects, isLoading } = useQuery({
         queryKey: ['projects'],
         queryFn: getProjectsAll
-    });
-
-    const { mutate } = useMutation({
-        mutationFn: deleteProject,
-        onSuccess: (res) => {
-            toast.success(res);
-            queryClient.invalidateQueries({ queryKey: [ 'projects' ] })
-        }, 
-        onError: (error) => {
-            toast.error(error.message);
-        }
     });
 
     const isEmptyData = useMemo(() => projects?.length === 0, [projects]);
@@ -127,7 +119,7 @@ const DashboardView = () => {
                                                                     <button
                                                                         type='button'
                                                                         className='block px-3 py-1 text-sm leading-6 text-red-500'
-                                                                        onClick={ () => mutate(project._id) }
+                                                                        onClick={ () => navigate(location.pathname +`?deleteProject=${project._id}`) }
                                                                     >Eliminar Proyecto</button>
                                                                 </MenuItem>
                                                             </>
@@ -141,6 +133,8 @@ const DashboardView = () => {
                     </ul>
                 )
             }
+            
+            <DeleteProjectModal />
         </>
     )
 }

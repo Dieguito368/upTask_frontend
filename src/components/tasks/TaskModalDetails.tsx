@@ -2,22 +2,21 @@ import { Fragment, ChangeEvent, useEffect } from 'react';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react';
-import { getTaskById, updateStatus } from '@/api/TaskAPI';
-import { formatDate } from '@/utils/index';
-import { statusTranslations } from '@/locales/es';
 import { toast } from 'react-toastify';
+import NotesPanel from '@/components/notes/NotesPanel';
+import { getTaskById, updateStatus } from '@/api/TaskAPI';
+import { statusTranslations } from '@/locales/es';
+import { formatDate } from '@/utils/index';
 import { TaskStatus } from '@/types/index';
-import NotesPanel from '../notes/NotesPanel';
 
 export default function TaskModalDetails() {
-    // Obtener el ID del Proyecto
     const params = useParams();
-    const projectId = params.projectId!;
-
     const navigate = useNavigate();
-
     const location = useLocation();
+    const queryClient = useQueryClient();
+    
     const queryParams = new URLSearchParams(location.search);
+    const projectId = params.projectId!;
     const taskId = queryParams.get('viewTask')!;
     const show = taskId ? true : false;
 
@@ -28,7 +27,6 @@ export default function TaskModalDetails() {
         retry: false,
     });
 
-    const queryClient = useQueryClient();
     const { mutate } = useMutation({
         mutationFn: updateStatus,
         onError: (error) => {

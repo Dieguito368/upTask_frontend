@@ -31,7 +31,7 @@ const CreateProjectView = () => {
 
     const handleForm = (data: DraftProject) => mutate(data);
 
-    const isEmptyErrors = useMemo(() => Object.keys(errors).length > 0, [ errors ]);
+    const isEmptyErrors = useMemo(() => Object.keys(errors).length > 0, [ errors ]);    
 
     return (
         <>
