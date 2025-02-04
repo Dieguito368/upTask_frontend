@@ -15,6 +15,8 @@ import ProjectTeamView from './views/projects/ProjectTeamView';
 import ProfileView from './views/profile/ProfileView';
 import ChangePasswordView from './views/profile/ChangePasswordView';
 import ProfileLayout from './layouts/ProfileLayout';
+import NotFound from './views/404/NotFound';
+import path from 'path';
 
 const router = createBrowserRouter([
     {
@@ -89,6 +91,15 @@ const router = createBrowserRouter([
                 path: 'new-password',
                 element: <NewPasswordView />
             },
+        ]
+    },
+    {
+        element: <AuthLayout />,
+        children: [
+            {
+                path: '*',
+                element: <NotFound />
+            }
         ]
     }
 ]);

@@ -6,10 +6,10 @@ import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import { useDraggable } from '@dnd-kit/core';
 import { toast } from 'react-toastify';
 import { deleteTask } from '@/api/TaskAPI';
-import { Task } from '@/types/index';
+import { TaskProject } from '@/types/index';
 
 type TaskCardProps = {
-    task: Task
+    task: TaskProject
     canEdit?: boolean
 }
 
@@ -42,9 +42,9 @@ const TaskCard = ({ task, canEdit }: TaskCardProps) => {
             { ...listeners }
             ref={ setNodeRef } 
             style={ style }
-            className='p-5 bg-white border-slate-300 flex justify-between gap-3 outline-none'
+            className='p-5 bg-white border-slate-300 flex justify-between gap-3 outline-none animate__animated animate__fadeIn'
         >
-            <div className='min-w-0 flex flex-col gap-y-4'>
+            <div className='min-w-0 flex flex-col gap-y-4 cursor-default'>
                 <button
                     type='button'
                     className='font-bold text-slate-400 text-left'

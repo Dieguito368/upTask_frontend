@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { projectSchema } from '@/schemas/projectSchema';
-import { taskSchema, taskStatusSchema } from '@/schemas/taskSchema';
+import { taskProjectSchema, taskSchema, taskStatusSchema } from '@/schemas/taskSchema';
 import { authSchema } from '@/schemas/authSchema';
 import { userSchema } from '@/schemas/userSchema';
 import { teamMemberSchema } from '@/schemas/teamSchema';
@@ -14,6 +14,7 @@ export type DraftProject = Pick<Project, 'clientName' | 'projectName' | 'descrip
 
 /** Tasks **/
 export type Task = z.infer<typeof taskSchema>
+export type TaskProject = z.infer<typeof taskProjectSchema>
 export type TaskFormData = Pick<Task, 'name' | 'description'> 
 export type TaskStatus = z.infer<typeof taskStatusSchema>
 

@@ -1,7 +1,7 @@
 import { isAxiosError } from 'axios';
 import api from '@/lib/axios';
 import { DraftProject, Project } from '@/types/index';
-import { projectSchema, projectsSchema } from '@/schemas/projectSchema';
+import { editProjectSchema, projectSchema, projectsSchema } from '@/schemas/projectSchema';
 
 export const createProject = async (formData: DraftProject) => {
     try {
@@ -33,7 +33,24 @@ export const getProjectById = async (projectId: Project['_id']) => {
     try {
         const { data } = await api(`/projects/${projectId}`);
 
-        return data;
+        
+        const result = editProjectSchema.safeParse(data);
+        
+        if(result.success) return result.data;
+    } catch (error) {
+        if(isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+    }
+}
+
+export const getFullProjectById = async (projectId: Project['_id']) => {
+    try {
+        const { data } = await api(`/projects/${projectId}`);
+
+        const result = projectSchema.safeParse(data);
+        
+        if(result.success) return result.data;
     } catch (error) {
         if(isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);

@@ -4,16 +4,16 @@ import { DndContext, DragEndEvent, MouseSensor, TouchSensor, useSensor, useSenso
 import TaskCard from "@/components/tasks/TaskCard";
 import DropTask from "@/components/tasks/DropTask";
 import { statusTranslations } from "@/locales/es";
-import { Task, TaskStatus } from "@/types/index";
+import { Project, TaskProject, TaskStatus } from "@/types/index";
 import { updateStatus } from '@/api/TaskAPI';
 import { toast } from 'react-toastify';
 
 type TaskListProps = {
-    tasks: Task[]
+    tasks: TaskProject[]
     canEdit?: boolean
 }
 
-const initialStatusGroups : { [key: string]: Task[] } = {
+const initialStatusGroups : { [key: string]: TaskProject[] } = {
     pending: [],
     onHold: [],
     inProgress: [],
@@ -58,12 +58,9 @@ const TaskList = ({ tasks, canEdit } : TaskListProps) => {
 
     const { mutate } = useMutation({
         mutationFn: updateStatus,
-        onError: (error) => {
-            toast(error.message);
-        },
+        onError: (error) => toast(error.message),
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['project', projectId] });
-            // queryClient.invalidateQueries({ queryKey: ['viewTask', taskId] });
 
             toast.success(data);
         }
@@ -76,13 +73,28 @@ const TaskList = ({ tasks, canEdit } : TaskListProps) => {
             const taskId = active.id.toString();
             const status = over.id as TaskStatus;
 
-            mutate({ projectId, taskId, status })
+            mutate({ projectId, taskId, status });
+
+            queryClient.setQueryData([ 'project', projectId ], (prevData: Project) => {
+                const updatedTasks = prevData.tasks.map(task => {
+                    if(task._id === taskId) {
+                        return { ...task, status };
+                    }
+
+                    return task;
+                });
+
+                return {
+                    ...prevData,
+                    tasks: updatedTasks
+                }
+            });
         }
     }
 
     return (
         <>
-            <h2 className="text-3xl font-black my-10">Tareas</h2>
+            <h2 className="text-2xl font-black mt-10 my-5">Tareas</h2>
 
             <div className='flex gap-5 overflow-x-scroll 2xl:overflow-auto pb-32'>
                 <DndContext 

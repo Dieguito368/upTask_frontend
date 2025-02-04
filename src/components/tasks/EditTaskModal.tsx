@@ -15,23 +15,22 @@ type EditTaskModalProps = {
 }
 
 export default function EditTaskModal({ task, taskId } : EditTaskModalProps) {
-    const navigate = useNavigate();
-
     const params = useParams();
+    const navigate = useNavigate();
+    const queryClient = useQueryClient();
+    
     const projectId = params.projectId!;
 
     const { register, handleSubmit, reset, formState: { errors }  } = useForm<TaskFormData>({ defaultValues: {
         name: task.name,
         description: task.description  
     }});
+    
     const isEmptyErrors = () => Object.values(errors).length > 0;
     
-    const queryClient = useQueryClient();
     const { mutate } = useMutation({
         mutationFn: updateTask,
-        onError: (error) => {
-            toast.error(error.message)
-        },
+        onError: (error) => toast.error(error.message),
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['project', projectId] })
             queryClient.invalidateQueries({ queryKey: ['task', taskId] })

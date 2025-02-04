@@ -19,3 +19,10 @@ export const taskSchema = z.object({
     createdAt: z.string(), 
     updatedAt: z.string()
 });
+
+export const taskProjectSchema = taskSchema.pick({
+    _id: true,
+    name: true,
+    description: true,
+    status: true,
+});

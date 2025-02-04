@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getProjectById } from '@/api/ProjectAPI';
+import { getFullProjectById } from '@/api/ProjectAPI';
 import { useParams, useLocation, useNavigate, Navigate, Link } from 'react-router-dom';
 import AddTaskModal from '@/components/tasks/AddTaskModal';
 import TaskList from '@/components/tasks/TaskList';
@@ -16,8 +16,8 @@ const ProjectDetailsView = () => {
     const params  = useParams();
     const projectId = params.projectId!;
     const { data: project, isError } = useQuery({
-        queryKey: ['project', projectId],
-        queryFn: () => getProjectById(projectId),
+        queryKey: [ 'project', projectId ],
+        queryFn: () => getFullProjectById(projectId),
         retry: false
     });
 
@@ -27,7 +27,7 @@ const ProjectDetailsView = () => {
 
     if(project && user) return (
         <>
-            <h1 className='text-3xl font-black'>{ project.projectName }</h1>
+            <h1 className='text-3xl font-black mb-2'>{ project.projectName }</h1>
             <p className='text-base font-light text-gray-500 text-justify'>{ project.description }</p>
 
             {

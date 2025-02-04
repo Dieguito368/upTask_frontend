@@ -1,18 +1,16 @@
 import { Fragment, useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
-import { toast } from 'react-toastify';
 import DeleteProjectModal from '@/components/projects/DeleteProjectModal';
 import { useAuth } from '@/hooks/useAuth';
 import { isManager } from '@/utils/policies';
-import { deleteProject, getProjectsAll } from '@/api/ProjectAPI';
+import { getProjectsAll } from '@/api/ProjectAPI';
 
 const DashboardView = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const queryClient = useQueryClient();
     const { user } = useAuth();
 
     const { data: projects, isLoading } = useQuery({
