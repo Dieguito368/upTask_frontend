@@ -16,7 +16,6 @@ import ProfileView from './views/profile/ProfileView';
 import ChangePasswordView from './views/profile/ChangePasswordView';
 import ProfileLayout from './layouts/ProfileLayout';
 import NotFound from './views/404/NotFound';
-import path from 'path';
 
 const router = createBrowserRouter([
     {
